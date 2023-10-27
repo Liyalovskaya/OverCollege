@@ -1,0 +1,13 @@
+﻿
+
+namespace OC.Core
+{
+    public interface IGameRunTextTrigger
+    {
+        void OnLocationMove();
+        void OnMoneyChanged();
+        void OnTextChanged();
+
+        void OnTimeChanged();
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "name": "OC.Core",
+    "rootNamespace": "OC",
+    "references": [
+        "GUID:c375750949f7a9540889378bb5ab5a5f",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:593a5b492d29ac6448b1ebf7f035ef33",
+        "GUID:34aa492b82754644eac2f903cd496268"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "ConfigData.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
