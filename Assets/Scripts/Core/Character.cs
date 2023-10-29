@@ -1,35 +1,47 @@
 using System;
+using System.Collections.Generic;
+using OC.Base;
 using OC.ConfigData;
 
 namespace OC.Core
 {
     public class Character : GameEntity
     {
+        // public GameRun GameRun;
+        
         public string FirstName;
         public string LastName;
         public string CalledName;
         public string CallPlayerName;
 
-        public string flavor;
+        public float Flavor = 0;
 
-        private CharacterConfig _config;
-        
-        
-        private Location _location;
+        public Dictionary<TimePeriod, string> Schedule = new();
 
-        public Location Location
+        public CharacterConfig Config;
+
+        public Location Location;
+
+        public override void Initialize()
         {
-            get => _location;
-            set
-            {
-                if (_location == value) return;
-                _location?.Characters.Remove(this);
-                _location = value;
-                _location.Characters.Add(this);
-            }
+            base.Initialize();
+            Config = CharacterConfig.FromId(Id);
+            FirstName = Config.FirstName;
+            LastName = Config.LastName;
+            CallPlayerName = Config.CallPlayer;
+        }
+
+        public virtual void MoveTo(Location location)
+        {
+            Location?.Characters.Remove(this);
+            Location = location;
+            Location?.Characters.Add(this);
+        }
+
+        public string FullName()
+        {
+            return $"{FirstName}{LastName}";
         }
         
-        
-
     }
 }

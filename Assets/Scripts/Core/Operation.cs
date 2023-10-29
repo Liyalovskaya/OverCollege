@@ -10,7 +10,13 @@ namespace OC.Core
         public string DialogueId = "";
         public string Tag;
         public bool NewLine = false;
-        
+        public object Target;
+
+
+        public Operation(object target)
+        {
+            Target = target;
+        }
 
         public virtual string Content()
         {

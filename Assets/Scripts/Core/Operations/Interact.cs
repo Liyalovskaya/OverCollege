@@ -1,22 +1,22 @@
 namespace OC.Core.Operations
 {
-    public class Chat : Interact
+    public class Interact : Operation
     {
         public new readonly Character Target;
-        public Chat(Character target) : base(target)
+
+        public Interact(Character target) : base(target)
         {
-            Id = $"chatTo_{target.Id}";
+            Id = $"interactTo_{target.Id}";
             Target = target;
         }
-        
+
         public override string Content()
         {
-            return $"和{Target.FullName()}聊天";
+            return $"和{Target.FullName()}互动";
         }
 
         public override void Execute(GameRun gameRun)
         {
-
         }
     }
 }

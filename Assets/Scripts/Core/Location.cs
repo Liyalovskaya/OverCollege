@@ -6,6 +6,9 @@ namespace OC.Core
 {
     public class Location : GameEntity
     {
+
+        public GameRun GameRun;
+        
         public string FullName;
 
         public LocationConfig Config;

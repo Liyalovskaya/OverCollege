@@ -37,6 +37,9 @@ namespace OC.Presentation
 
             InitEntities();
             GameRun.CurrentLocation = GameRun.Locations.FirstOrDefault(x => x.Id == "School_Hall");
+            
+            OnTimeChanged();
+            
             DisplayLocationMain();
             LeftPanel.Instance.InfoRefresh();
         }
@@ -64,6 +67,12 @@ namespace OC.Presentation
                     location.Connections.Add(GameRun.Locations.FirstOrDefault(x => x.Id == id));
                     // Debug.Log($"{location.Id} connect to {id}");
                 }
+            }
+
+            foreach (var config in CharacterConfig.AllConfig())
+            {
+                var character = Library.CreateCharacter(config.Id);
+                GameRun.Characters.Add(character);
             }
         }
         

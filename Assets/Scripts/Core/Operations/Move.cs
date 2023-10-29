@@ -2,11 +2,11 @@ namespace OC.Core.Operations
 {
     public class Move : Operation
     {
-        public readonly Location Target;
+        public new readonly Location Target;
 
-        public Move(Location target, bool newline = false)
+        public Move(Location target, bool newline = false) : base(target)
         {
-            Id = $"goto_{target.Id}";
+            Id = $"goTo_{target.Id}";
             Target = target;
             NewLine = newline;
         }
