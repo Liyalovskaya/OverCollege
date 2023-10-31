@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using OC.ConfigData;
+using OC.Core.Operations;
 using UnityEngine;
 
 namespace OC.Core
@@ -16,8 +17,10 @@ namespace OC.Core
         public readonly List<Character> Characters = new();
         
         public readonly List<Location> Connections = new();
-        
-        
+
+        public List<Activity> Activities = new();
+
+
         public override void Initialize()
         {
             base.Initialize();

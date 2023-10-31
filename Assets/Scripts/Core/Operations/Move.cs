@@ -4,7 +4,7 @@ namespace OC.Core.Operations
     {
         public new readonly Location Target;
 
-        public Move(Location target, bool newline = false) : base(target)
+        public Move(Location target, bool newline = false) : base()
         {
             Id = $"goTo_{target.Id}";
             Target = target;

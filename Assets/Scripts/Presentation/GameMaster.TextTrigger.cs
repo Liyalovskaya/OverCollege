@@ -32,6 +32,7 @@ namespace OC.Presentation
                 var location = GameRun.GetLocation(character.Schedule[GameRun.TimeInfo.TimePeriod]);
                 character.MoveTo(location); 
             }
+            DisplayLocationMain();
         }
 
         public void OnLocationMove()

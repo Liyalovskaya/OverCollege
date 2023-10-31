@@ -50,11 +50,11 @@ namespace OC.Presentation
 
             var str = "";
 
-            str += "\n\n================================\n";
+            str += "\n\n=====[对话]===========================\n";
 
             for (int i = 0; i < options.Length; i++)
             {
-                if (i == HighlightOptionIdx)
+                if (i == HighlightOptionId)
                 {
                     str +=
                         $"<color=#00FF00><link=\"{i}\">{i + 1}. {options[i].Line.RawText}</link></color>\t\t";
@@ -70,5 +70,7 @@ namespace OC.Presentation
             return str;
         }
 
+        
+        
     }
 }

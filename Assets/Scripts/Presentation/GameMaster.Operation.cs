@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OC.Core;
 using OC.Core.Operations;
+using UnityEngine;
 
 namespace OC.Presentation
 {
@@ -59,13 +60,19 @@ namespace OC.Presentation
                 Operations.Add(option);
             }
 
+            foreach (var activity in GameRun.CurrentLocation.Activities)
+            {
+                Operations.Add(activity);
+            }
+
             WaitingForOperation = true;
         }
 
         public void SelectOperation(int idx)
         {
+            Debug.Log(Operations[idx].Content());
             WaitingForOperation = false;
-            _lastAction = (string) Operations[idx].Content().Clone();
+            _lastAction = (string)Operations[idx].Content().Clone();
             Operations[idx].Execute(GameRun);
         }
 
@@ -77,44 +84,94 @@ namespace OC.Presentation
             }
 
             var str = "";
-
+            
             if (operations.Any(x => x is Interact))
             {
+                var actualIdx = 0;
                 str += "\n\n=====[互动]===========================\n";
                 for (int i = 0; i < operations.Count; i++)
                 {
-                    if (operations[i] is not Interact) continue;
-                    if (i == HighlightOptionIdx)
+                    if(operations[i] is not Interact) continue;
+                    if (i == HighlightOptionId)
                     {
                         str +=
-                            $"<color=#00FF00><link=\"{i}\">{i + 1}. {operations[i].Content()}</link></color>\t\t";
+                            $"<color=#00FF00><link=\"{i}\">{actualIdx + 1}. {operations[i].Content()}</link></color>";
                     }
                     else
                     {
-                        str += $"<link=\"{i}\">{i + 1}. {operations[i].Content()}</link>\t\t";
+                        str += $"<link=\"{i}\">{actualIdx + 1}. {operations[i].Content()}</link>";
                     }
 
-                    if (i % 4 == 4 - 1) str += "\n";
+                    if (actualIdx % 4 == 4 - 1)
+                    {
+                        str += "\n";
+                    }
+                    else
+                    {
+                        str += "\t\t";
+                    }
+                    actualIdx++;
                 }
             }
 
             if (operations.Any(x => x is Move))
             {
+                var actualIdx = 0;
                 str += "\n\n=====[移动]===========================\n";
                 for (int i = 0; i < operations.Count; i++)
                 {
-                    if (operations[i] is not Move) continue;
-                    if (i == HighlightOptionIdx)
+                    if(operations[i] is not Move) continue;
+                    if (i == HighlightOptionId)
                     {
                         str +=
-                            $"<color=#00FF00><link=\"{i}\">{i + 1}. {operations[i].Content()}</link></color>\t\t";
+                            $"<color=#00FF00><link=\"{i}\">{actualIdx + 1}. {operations[i].Content()}</link></color>";
                     }
                     else
                     {
-                        str += $"<link=\"{i}\">{i + 1}. {operations[i].Content()}</link>\t\t";
+                        str += $"<link=\"{i}\">{actualIdx + 1}. {operations[i].Content()}</link>";
                     }
 
-                    if (i % 4 == 4 - 1) str += "\n";
+                    if (actualIdx % 4 == 4 - 1)
+                    {
+                        str += "\n";
+                    }
+                    else
+                    {
+                        str += "\t\t";
+                    }
+
+                    actualIdx++;
+                }
+            }
+            
+
+            if (operations.Any(x => x is Activity) )
+            {
+                var actualIdx = 0;
+                str += "\n\n=====[行动]===========================\n";
+                for (int i = 0; i < operations.Count; i++)
+                {
+                    if(operations[i] is not Activity) continue;
+                    if (i == HighlightOptionId)
+                    {
+                        str +=
+                            $"<color=#00FF00><link=\"{i}\">{actualIdx + 1}. {operations[i].Content()}</link></color>";
+                    }
+                    else
+                    {
+                        str += $"<link=\"{i}\">{actualIdx + 1}. {operations[i].Content()}</link>";
+                    }
+
+                    if (actualIdx % 4 == 4 - 1)
+                    {
+                        str += "\n";
+                    }
+                    else
+                    {
+                        str += "\t\t";
+                    }
+
+                    actualIdx++;
                 }
             }
 

@@ -4,7 +4,7 @@ namespace OC.Core.Operations
     {
         public new readonly Character Target;
 
-        public Interact(Character target) : base(target)
+        public Interact(Character target) : base()
         {
             Id = $"interactTo_{target.Id}";
             Target = target;

@@ -14,15 +14,15 @@ namespace OC.Presentation
         
         public TextMeshProUGUI mainTextUGUI;
         
-        private int _highlightOptionIdx = -1;
+        private int _highlightOptionId = -1;
 
-        public int HighlightOptionIdx
+        public int HighlightOptionId
         {
-            get => _highlightOptionIdx;
+            get => _highlightOptionId;
             set
             {
-                if (_highlightOptionIdx == value) return;
-                _highlightOptionIdx = value;
+                if (_highlightOptionId == value) return;
+                _highlightOptionId = value;
                 OnTextChanged();
             }
         }

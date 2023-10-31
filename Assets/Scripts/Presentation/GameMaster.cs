@@ -6,6 +6,7 @@ using OC.ConfigData;
 using OC.Base;
 using OC.Core;
 using OC.Core.Locations;
+using OC.Core.Operations;
 using TMPro;
 using Yarn.Unity;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace OC.Presentation
         public static DialogueViewer DialogueViewer;
 
         public static GameRun GameRun;
-        
+
         public static List<Operation> Operations = new();
 
         private void Awake()
@@ -32,15 +33,15 @@ namespace OC.Presentation
 
             GameRun = new GameRun();
             GameRun.TextTrigger = this;
-            
+
             Operations = new List<Operation>();
 
             InitEntities();
             GameRun.CurrentLocation = GameRun.Locations.FirstOrDefault(x => x.Id == "School_Hall");
-            
+
             OnTimeChanged();
-            
-            DisplayLocationMain();
+
+            // DisplayLocationMain();
             LeftPanel.Instance.InfoRefresh();
         }
 
@@ -75,27 +76,35 @@ namespace OC.Presentation
                 GameRun.Characters.Add(character);
             }
         }
-        
+
         private void Update()
         {
-            HighlightOptionIdx =
+            var idx =
                 TMP_TextUtilities.FindIntersectingLink(mainTextUGUI, Input.mousePosition, Camera.main);
-            // Debug.Log(HighlightOptionIdx);
-            if (HighlightOptionIdx != -1)
+            if (idx != -1)
             {
+                int.TryParse(mainTextUGUI.textInfo.linkInfo[idx].GetLinkID(), out var id);
+                HighlightOptionId = id;
+                // Debug.Log(HighlightOptionIdx);
+
                 if (Input.GetMouseButtonUp(0))
                 {
                     if (DialogueOptions != null)
                     {
-                        SelectDialogueOption(HighlightOptionIdx);
+                        SelectDialogueOption(HighlightOptionId);
                     }
 
                     if (Operations.Count != 0)
                     {
-                        SelectOperation(HighlightOptionIdx);
+                        SelectOperation(HighlightOptionId);
                     }
                 }
             }
+            else
+            {
+                HighlightOptionId = -1;
+            }
+
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
