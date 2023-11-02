@@ -10,6 +10,9 @@ namespace OC.Presentation
     {
         [HideInInspector] public DialogueOption[] DialogueOptions;
         [HideInInspector] public Action<int> OnDialogueOptionSelected;
+
+
+        [HideInInspector] public bool inDialogue = false;
         
         private bool _waitForDialogueOption;
 
@@ -25,9 +28,10 @@ namespace OC.Presentation
                 }
             }
         }
-
+        
         public void ReleaseDialogue()
         {
+            inDialogue = false;
             WaitForDialogueOption = false;
             DialogueOptions = null;
             OnDialogueOptionSelected = null;
@@ -38,7 +42,10 @@ namespace OC.Presentation
             WriteLine($"(你选择了[{DialogueOptions[idx].Line.RawText}])");
             _lastAction = (string)DialogueOptions[idx].Line.RawText.Clone();
             OnDialogueOptionSelected?.Invoke(idx);
-            ReleaseDialogue();
+            OnDialogueOptionSelected = null;
+            WaitForDialogueOption = false;
+            DialogueOptions = null;
+            // ReleaseDialogue();
         }
         
         public string DialogueOptionText(DialogueOption[] options)

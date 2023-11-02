@@ -16,7 +16,7 @@ namespace OC.Presentation
                 str += DialogueOptionText(DialogueOptions);
             }
 
-            if (WaitingForOperation)
+            if (WaitForOperation)
             {
                 str += OperationText(Operations);
             }
@@ -44,6 +44,12 @@ namespace OC.Presentation
         public void OnMoneyChanged()
         {
             LeftPanel.Instance.InfoRefresh();
+        }
+
+        public void RunDialogue(string id)
+        {
+            DialogueRunner.StartDialogue(id);
+            inDialogue = true;
         }
         
         

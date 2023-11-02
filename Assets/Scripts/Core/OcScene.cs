@@ -5,22 +5,12 @@ using UnityEngine;
 
 namespace OC.Core
 {
-    public class Location : GameEntity
+    public class Scene : GameEntity
     {
-        
         public GameRun GameRun;
-        
-        public string FullName;
-
-        public LocationConfig Config;
-        
-        public readonly List<Character> Characters = new();
-        
-        public readonly List<Location> Connections = new();
-
-        public List<Activity> Activities = new();
 
 
+        public List<Operation> Operations;
         public override void Initialize()
         {
             base.Initialize();

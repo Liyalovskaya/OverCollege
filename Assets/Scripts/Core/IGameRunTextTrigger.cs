@@ -9,5 +9,7 @@ namespace OC.Core
         void OnTextChanged();
 
         void OnTimeChanged();
+
+        void RunDialogue(string id);
     }
 }

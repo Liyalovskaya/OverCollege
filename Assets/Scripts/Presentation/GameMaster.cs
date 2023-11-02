@@ -89,12 +89,12 @@ namespace OC.Presentation
 
                 if (Input.GetMouseButtonUp(0))
                 {
-                    if (DialogueOptions != null)
+                    if (WaitForDialogueOption)
                     {
                         SelectDialogueOption(HighlightOptionId);
                     }
 
-                    if (Operations.Count != 0)
+                    if (WaitForOperation)
                     {
                         SelectOperation(HighlightOptionId);
                     }

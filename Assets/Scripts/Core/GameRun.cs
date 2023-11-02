@@ -56,6 +56,11 @@ namespace OC.Core
             return Locations.First(x => x.Id == id);
 
         }
+
+        public void RunDialogue(string id)
+        {
+            TextTrigger?.RunDialogue(id);
+        }
         
     }
 }

@@ -8,16 +8,16 @@ namespace OC.Presentation
 {
     public partial class GameMaster
     {
-        private bool _waitingForOperation;
+        private bool _waitForOperation;
 
-        public bool WaitingForOperation
+        public bool WaitForOperation
         {
-            get => _waitingForOperation;
+            get => _waitForOperation;
             set
             {
-                if (_waitingForOperation != value)
+                if (_waitForOperation != value)
                 {
-                    _waitingForOperation = value;
+                    _waitForOperation = value;
                     OnTextChanged();
                 }
             }
@@ -65,13 +65,12 @@ namespace OC.Presentation
                 Operations.Add(activity);
             }
 
-            WaitingForOperation = true;
+            WaitForOperation = true;
         }
 
         public void SelectOperation(int idx)
         {
-            Debug.Log(Operations[idx].Content());
-            WaitingForOperation = false;
+            WaitForOperation = false;
             _lastAction = (string)Operations[idx].Content().Clone();
             Operations[idx].Execute(GameRun);
         }
