@@ -5,18 +5,33 @@ using UnityEngine;
 
 namespace OC.Core
 {
-    public class Scene : GameEntity
+    public class OcScene
     {
-        public GameRun GameRun;
-
-
-        public List<Operation> Operations;
-        public override void Initialize()
+        public readonly List<Operation> Operations = new List<Operation>();
+        public string MainText = "";
+        public string OperationText = "";
+        public virtual void RefreshOperations()
         {
-            base.Initialize();
-            Config = LocationConfig.FromId(Id);
-            FullName = Config.FullName;
+            Operations.Clear();
+            OperationText = "";
         }
+
+        public virtual void Enter()
+        {
+            
+        }
+
+
+        public void Write(string content)
+        {
+            MainText += content;
+        }
+
+        public void WriteLine(string content)
+        {
+            Write($"{content}\n");
+        }
+        
         
 
     }

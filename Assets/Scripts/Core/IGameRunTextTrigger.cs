@@ -11,5 +11,7 @@ namespace OC.Core
         void OnTimeChanged();
 
         void RunDialogue(string id);
+
+        public void SelectDialogueOption(int idx);
     }
 }

@@ -12,7 +12,8 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "ConfigData.dll"
+        "ConfigData.dll",
+        "YarnSpinner.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

@@ -7,6 +7,7 @@ using OC.Base;
 using OC.Core;
 using OC.Core.Locations;
 using OC.Core.Operations;
+using OC.Core.Scenes;
 using TMPro;
 using Yarn.Unity;
 using UnityEngine;
@@ -22,6 +23,9 @@ namespace OC.Presentation
 
         public static List<Operation> Operations = new();
 
+        public OcScene Scene;
+        
+
         private void Awake()
         {
             _ = StartAsync();
@@ -30,7 +34,7 @@ namespace OC.Presentation
         private async UniTask StartAsync()
         {
             await InitializeRestAsync();
-
+            
             GameRun = new GameRun();
             GameRun.TextTrigger = this;
 
@@ -83,6 +87,7 @@ namespace OC.Presentation
                 TMP_TextUtilities.FindIntersectingLink(mainTextUGUI, Input.mousePosition, Camera.main);
             if (idx != -1)
             {
+                mainTextUGUI.textInfo.linkInfo[idx].GetLinkText();
                 int.TryParse(mainTextUGUI.textInfo.linkInfo[idx].GetLinkID(), out var id);
                 HighlightOptionId = id;
                 // Debug.Log(HighlightOptionIdx);

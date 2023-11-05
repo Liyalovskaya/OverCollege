@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OC.Core;
 using OC.Core.Operations;
+using OC.Core.Scenes;
 using UnityEngine;
 
 namespace OC.Presentation
@@ -23,47 +24,12 @@ namespace OC.Presentation
             }
         }
 
-        public void DisplayLocationMain()
+        public void EnterScene(OcScene scene)
         {
-            ClearText(false);
-            WriteLine($"你当前在{GameRun.CurrentLocation.FullName}。");
-            Operations.Clear();
-
-            var characters = GameRun.Characters.Where(x => x.Location == GameRun.CurrentLocation).ToList();
-
-            if (characters.Count != 0)
-            {
-                var nameStr = "你看到";
-                for (int i = 0; i < characters.Count; i++)
-                {
-                    Operations.Add(new Chat(characters[i]));
-                    nameStr += $"{characters[i].FullName()}";
-                    if (i != characters.Count - 1)
-                    {
-                        nameStr += "、";
-                    }
-                }
-
-                nameStr += "也在这里。";
-                WriteLine(nameStr);
-            }
-            else
-            {
-                WriteLine("这里没有别人。");
-            }
-
-
-            var connections = GameRun.CurrentLocation.Connections;
-            for (int i = 0; i < connections.Count; i++)
-            {
-                var option = new Move(connections[i]);
-                Operations.Add(option);
-            }
-
-            foreach (var activity in GameRun.CurrentLocation.Activities)
-            {
-                Operations.Add(activity);
-            }
+            ClearText();
+            Scene = scene;
+            MainText = scene.MainText;
+            Operations = scene.Operations;
 
             WaitForOperation = true;
         }
@@ -151,6 +117,36 @@ namespace OC.Presentation
                 for (int i = 0; i < operations.Count; i++)
                 {
                     if(operations[i] is not Activity) continue;
+                    if (i == HighlightOptionId)
+                    {
+                        str +=
+                            $"<color=#00FF00><link=\"{i}\">{actualIdx + 1}. {operations[i].Content()}</link></color>";
+                    }
+                    else
+                    {
+                        str += $"<link=\"{i}\">{actualIdx + 1}. {operations[i].Content()}</link>";
+                    }
+
+                    if (actualIdx % 4 == 4 - 1)
+                    {
+                        str += "\n";
+                    }
+                    else
+                    {
+                        str += "\t\t";
+                    }
+
+                    actualIdx++;
+                }
+            }
+            
+            if (operations.Any(x => x is DialogueOption) )
+            {
+                var actualIdx = 0;
+                str += "\n\n=====[对话]===========================\n";
+                for (int i = 0; i < operations.Count; i++)
+                {
+                    if(operations[i] is not DialogueOption) continue;
                     if (i == HighlightOptionId)
                     {
                         str +=

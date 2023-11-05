@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OC.Base;
+using OC.Core.Scenes;
+using Yarn;
 
 namespace OC.Core
 {
@@ -10,8 +12,8 @@ namespace OC.Core
         public readonly TimeInfo TimeInfo = new TimeInfo(1, 8, 30, TimePeriod.EarlyMorning);
         public readonly List<Location> Locations = new List<Location>();
         public List<Character> Characters = new List<Character>();
-
-        public Location CurrentLocation;
+        
+        public Location CurrentLocation { get; set; }
 
         public float Money = 1000;
         
@@ -60,6 +62,11 @@ namespace OC.Core
         public void RunDialogue(string id)
         {
             TextTrigger?.RunDialogue(id);
+        }
+
+        public void SelectDialogueOption(int idx)
+        {
+            TextTrigger?.SelectDialogueOption(idx);
         }
         
     }
