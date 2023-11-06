@@ -18,7 +18,7 @@ namespace OC.Core.Operations
         }
         public override void Execute(GameRun gameRun)
         {
-            gameRun.SelectDialogueOption(Index);
+            
         }
         
     }

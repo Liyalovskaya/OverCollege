@@ -12,6 +12,8 @@ namespace OC.Core
         public readonly TimeInfo TimeInfo = new TimeInfo(1, 8, 30, TimePeriod.EarlyMorning);
         public readonly List<Location> Locations = new List<Location>();
         public List<Character> Characters = new List<Character>();
+
+        public string LastOperationContent { get; set; }
         
         public Location CurrentLocation { get; set; }
 
@@ -42,10 +44,11 @@ namespace OC.Core
             TextTrigger?.OnMoneyChanged();
         }
 
-        public void MoveTo(Location location)
+        public void MoveTo(Location location) // Move Operation
         {
             CurrentLocation = location;
             TextTrigger?.OnLocationMove();
+            TextTrigger?.UpdateViewer();
         }
 
         public Location GetLocation(string id)
@@ -64,10 +67,12 @@ namespace OC.Core
             TextTrigger?.RunDialogue(id);
         }
 
-        public void SelectDialogueOption(int idx)
+        public void OnCharacterMove()
         {
-            TextTrigger?.SelectDialogueOption(idx);
+            TextTrigger?.OnCharacterMove();
         }
+        
+
         
     }
 }

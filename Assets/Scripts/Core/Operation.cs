@@ -7,7 +7,6 @@ namespace OC.Core
     public class Operation
     {
         public string Id;
-        public string DialogueId = "";
         public string Tag;
         public bool NewLine = false;
         public object Target;

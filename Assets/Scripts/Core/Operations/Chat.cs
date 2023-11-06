@@ -7,7 +7,6 @@ namespace OC.Core.Operations
         {
             Id = $"chatTo_{target.Id}";
             Target = target;
-            DialogueId = $"{target.Id}_Chat";
         }
         
         public override string Content()
@@ -17,7 +16,7 @@ namespace OC.Core.Operations
 
         public override void Execute(GameRun gameRun)
         {
-            gameRun.RunDialogue(DialogueId);
+            gameRun.RunDialogue($"{Target.Id}_Chat_{gameRun.CurrentLocation.Id}_{gameRun.TimeInfo.TimePeriod.ToString()}");
         }
     }
 }

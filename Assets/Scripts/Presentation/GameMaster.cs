@@ -11,6 +11,7 @@ using OC.Core.Scenes;
 using TMPro;
 using Yarn.Unity;
 using UnityEngine;
+using DialogueOption = Yarn.Unity.DialogueOption;
 
 namespace OC.Presentation
 {
@@ -19,12 +20,8 @@ namespace OC.Presentation
         public static DialogueRunner DialogueRunner;
         public static DialogueViewer DialogueViewer;
 
-        public static GameRun GameRun;
+        public static GameRun GameRun { get; set; }
 
-        public static List<Operation> Operations = new();
-
-        public OcScene Scene;
-        
 
         private void Awake()
         {
@@ -37,12 +34,13 @@ namespace OC.Presentation
             
             GameRun = new GameRun();
             GameRun.TextTrigger = this;
-
-            Operations = new List<Operation>();
-
+            
             InitEntities();
+            LocationScene = new LocationScene(GameRun);
+            DialogueScene = new DialogueScene(GameRun);
             GameRun.CurrentLocation = GameRun.Locations.FirstOrDefault(x => x.Id == "School_Hall");
-
+            CurrentScene = LocationScene;
+            
             OnTimeChanged();
 
             // DisplayLocationMain();
@@ -62,7 +60,7 @@ namespace OC.Presentation
             foreach (var config in LocationConfig.AllConfig())
             {
                 var location = Library.CreateLocation(config.Id);
-                GameRun.Locations.Add(location);
+                location.EnterGameRun(GameRun);
             }
 
             foreach (var location in GameRun.Locations)
@@ -70,14 +68,13 @@ namespace OC.Presentation
                 foreach (var id in location.Config.Connections)
                 {
                     location.Connections.Add(GameRun.Locations.FirstOrDefault(x => x.Id == id));
-                    // Debug.Log($"{location.Id} connect to {id}");
                 }
             }
 
             foreach (var config in CharacterConfig.AllConfig())
             {
                 var character = Library.CreateCharacter(config.Id);
-                GameRun.Characters.Add(character);
+                character.EnterGameRun(GameRun);
             }
         }
 
@@ -94,15 +91,7 @@ namespace OC.Presentation
 
                 if (Input.GetMouseButtonUp(0))
                 {
-                    if (WaitForDialogueOption)
-                    {
-                        SelectDialogueOption(HighlightOptionId);
-                    }
-
-                    if (WaitForOperation)
-                    {
-                        SelectOperation(HighlightOptionId);
-                    }
+                    CurrentScene.SelectOption(HighlightOptionId);
                 }
             }
             else
@@ -114,7 +103,7 @@ namespace OC.Presentation
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("Manually Refresh Text");
-                OnTextChanged();
+                UpdateViewer();
             }
         }
     }

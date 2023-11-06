@@ -7,8 +7,6 @@ namespace OC.Core
 {
     public class Character : GameEntity
     {
-        // public GameRun GameRun;
-        
         public string FirstName;
         public string LastName;
         public string CalledName;
@@ -31,11 +29,18 @@ namespace OC.Core
             CallPlayerName = Config.CallPlayer;
         }
 
+        public void EnterGameRun(GameRun gameRun)
+        {
+            GameRun = gameRun;
+            GameRun.Characters.Add(this);
+        }
+
         public virtual void MoveTo(Location location)
         {
             Location?.Characters.Remove(this);
             Location = location;
             Location?.Characters.Add(this);
+            GameRun.OnCharacterMove();
         }
 
         public string FullName()

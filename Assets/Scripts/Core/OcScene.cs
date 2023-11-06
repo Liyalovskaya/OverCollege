@@ -7,18 +7,24 @@ namespace OC.Core
 {
     public class OcScene
     {
+        public GameRun GameRun { get; set; }
         public readonly List<Operation> Operations = new List<Operation>();
         public string MainText = "";
-        public string OperationText = "";
-        public virtual void RefreshOperations()
+
+        public OcScene(GameRun gameRun)
         {
-            Operations.Clear();
-            OperationText = "";
+            GameRun = gameRun;
         }
 
-        public virtual void Enter()
+        public virtual void Update()
         {
             
+        }
+
+        public virtual void SelectOption(int idx)
+        {
+            GameRun.LastOperationContent = Operations[idx].Content();
+            Operations[idx].Execute(GameRun);
         }
 
 
@@ -31,7 +37,24 @@ namespace OC.Core
         {
             Write($"{content}\n");
         }
-        
+
+        public void ReleaseText()
+        {
+            MainText = "";
+        }
+
+        public virtual string OperationText(int highlightIdx = -1)
+        {
+            return "";
+        }
+
+        protected void ShowLastOperation()
+        {
+            if (!string.IsNullOrEmpty(GameRun.LastOperationContent))
+            {
+                WriteLine($"(上一次的选择:[{GameRun.LastOperationContent}])");
+            }
+        }
         
 
     }

@@ -13,27 +13,25 @@ namespace OC.Presentation
 
         public override void RunLine(LocalizedLine dialogueLine, Action onDialogueLineFinished)
         {
-            Debug.Log($"Running line {dialogueLine.TextID}");
-            GameMaster.Instance.Scene.WriteLine(dialogueLine.RawText);
+            GameMaster.Instance.DialogueScene.RunLine(dialogueLine);
             onDialogueLineFinished();
         }
 
         public override void RunOptions(DialogueOption[] dialogueOptions, Action<int> onOptionSelected)
         {
-            GameMaster.Instance.OnDialogueOptionSelected = onOptionSelected;
-            var dialogueScene = (DialogueScene)GameMaster.Instance.Scene;
-            dialogueScene.RunOption(dialogueOptions);
+            GameMaster.Instance.DialogueScene.RunOption(dialogueOptions, onOptionSelected);
         }
 
         public override void DialogueStarted()
         {
-            GameMaster.Instance.ClearText();
+            
         }
 
         public override void DialogueComplete()
         {
             // _advanceHandler = null;
-            GameMaster.Instance.OnDialogueOptionSelected = null;
+            GameMaster.Instance.DialogueScene.ReleaseDialogue();
+            GameMaster.Instance.CurrentScene = GameMaster.Instance.LocationScene;
         }
     }
 }

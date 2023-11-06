@@ -5,13 +5,12 @@ using OC.Core.Operations;
 using TMPro;
 using UnityEngine;
 using Yarn.Unity;
+using DialogueOption = OC.Core.Operations.DialogueOption;
 
 namespace OC.Presentation
 {
     public partial class GameMaster
     {
-        private string _lastAction = "";
-        
         public TextMeshProUGUI mainTextUGUI;
         
         private int _highlightOptionId = -1;
@@ -23,37 +22,8 @@ namespace OC.Presentation
             {
                 if (_highlightOptionId == value) return;
                 _highlightOptionId = value;
-                OnTextChanged();
+                UpdateViewer();
             }
-        }
-
-        private string _mainText;
-
-        public string MainText
-        {
-            get => _mainText;
-            set
-            {
-                _mainText = value;
-                OnTextChanged();
-            }
-        }
-        
-        
-        public void ClearText(bool hintLastAction = true)
-        {
-            MainText = "";
-            if (hintLastAction)
-            {
-                MainText += $"(上次的选择是[{_lastAction}])\n";
-            }
-        }
-
-        public void WriteLine(string str)
-        {
-            if (MainText == null) MainText = "";
-            MainText += str;
-            MainText += '\n';
         }
     }
 }

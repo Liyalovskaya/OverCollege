@@ -1,4 +1,4 @@
-
+using System;
 using System.Linq;
 using OC.Core;
 using OC.Core.Operations;
@@ -9,20 +9,14 @@ namespace OC.Presentation
 {
     public partial class GameMaster : IGameRunTextTrigger
     {
-        public void OnTextChanged()
+        public void UpdateViewer()
         {
-            var str = MainText;
-            if (WaitForDialogueOption)
+            if (CurrentScene == null)
             {
-                str += DialogueOptionText(DialogueOptions);
+                throw new ArgumentException("Null CurrentScene");
             }
 
-            if (WaitForOperation)
-            {
-                str += OperationText(Operations);
-            }
-            
-            mainTextUGUI.text = str;
+            mainTextUGUI.text = CurrentScene.MainText + CurrentScene.OperationText(HighlightOptionId);    
         }
 
         public void OnTimeChanged()
@@ -31,16 +25,18 @@ namespace OC.Presentation
             foreach (var character in GameRun.Characters)
             {
                 var location = GameRun.GetLocation(character.Schedule[GameRun.TimeInfo.TimePeriod]);
-                character.MoveTo(location); 
+                character.MoveTo(location);
             }
-            MainText = Scene.MainText;
+
+            LocationScene.Update();
+            UpdateViewer();
         }
 
         public void OnLocationMove()
         {
             LeftPanel.Instance.InfoRefresh();
-            Scene = new LocationScene(GameRun.CurrentLocation);
-            MainText = Scene.MainText;
+            LocationScene.Update();
+            UpdateViewer();
         }
 
         public void OnMoneyChanged()
@@ -50,21 +46,26 @@ namespace OC.Presentation
 
         public void RunDialogue(string id)
         {
-            DialogueRunner.StartDialogue(id);
-            Scene = new DialogueScene(DialogueRunner.Dialogue);
-            inDialogue = true;
-        }
+            DialogueScene.ReleaseDialogue();
+            CurrentScene = DialogueScene;
+            if (DialogueRunner.yarnProject.NodeNames.Contains(id))
+            {
+                DialogueRunner.StartDialogue(id);
+            }
+            else
+            {
+                DialogueRunner.StartDialogue("NodeNotFound");
+                DialogueScene.RunLine($"对话Id[{id}]不存在");
+            }
 
-        public void SelectDialogueOption(int idx)
+
+
+        }
+        
+        public void OnCharacterMove()
         {
-            
-            WriteLine($"(你选择了[{DialogueOptions[idx].Line.RawText}])");
-            _lastAction = (string)DialogueOptions[idx].Line.RawText.Clone();
-            
-            OnDialogueOptionSelected?.Invoke(idx);
-            OnDialogueOptionSelected = null;
-            WaitForDialogueOption = false;
-            DialogueOptions = null;
+            LocationScene.Update();
+            UpdateViewer();
         }
         
         

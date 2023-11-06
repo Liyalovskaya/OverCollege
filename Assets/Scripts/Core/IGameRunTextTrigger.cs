@@ -4,14 +4,16 @@ namespace OC.Core
 {
     public interface IGameRunTextTrigger
     {
-        void OnLocationMove();
-        void OnMoneyChanged();
-        void OnTextChanged();
+        public void OnLocationMove();
+        public void OnMoneyChanged();
 
-        void OnTimeChanged();
+        public void OnTimeChanged();
 
-        void RunDialogue(string id);
+        public void RunDialogue(string id);
 
-        public void SelectDialogueOption(int idx);
+        public void OnCharacterMove();
+
+        public void UpdateViewer();
+
     }
 }

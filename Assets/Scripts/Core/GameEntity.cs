@@ -7,7 +7,7 @@ namespace OC.Core
     [RequireDerived]
     public abstract class GameEntity : IInitializable, INotifyChanged
     {
-
+        public GameRun GameRun { get; set; }
         public string Id { get; private set; }
 
         public virtual string DebugName => $"<{Id}>({Name})";

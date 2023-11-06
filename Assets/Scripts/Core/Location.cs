@@ -7,9 +7,6 @@ namespace OC.Core
 {
     public class Location : GameEntity
     {
-        
-        public GameRun GameRun;
-        
         public string FullName;
 
         public LocationConfig Config;
@@ -26,6 +23,12 @@ namespace OC.Core
             base.Initialize();
             Config = LocationConfig.FromId(Id);
             FullName = Config.FullName;
+        }
+
+        public void EnterGameRun(GameRun gameRun)
+        {
+            GameRun = gameRun;
+            GameRun.Locations.Add(this);
         }
         
 
